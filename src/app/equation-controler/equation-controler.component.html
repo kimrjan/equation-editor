@@ -1,0 +1,171 @@
+<div class="component">
+    <div style="display: flex; justify-content: space-between;">
+        <h1>Editor rovnic</h1>
+        <fa-icon [icon]="faQuestionCircle" size='3x' style="cursor: pointer;" (click)="scroll(help1)"></fa-icon>
+    </div>
+    <div #input>
+        <app-input-equation></app-input-equation>
+    </div>
+
+    <div style="display: flex; justify-content: space-between;" #editor>
+        <h2>Řešit rovnici:</h2>
+        <fa-icon [icon]="faQuestionCircle" size='3x' style="cursor: pointer;" (click)="scroll(help2)"></fa-icon>
+    </div>
+
+    <div class="around-equation-container m-1">
+        <div cdkDropListGroup class="equation-container mx-auto m-1" cdkScrollable>
+            <div class="equation-side" id='left'>
+                <app-equation-controler-node [node]=equation.leftSide [fontSize]='calcEditorFontSize()'>
+                </app-equation-controler-node>
+            </div>
+            <div class="equation-sign noselect">
+                <ng-katex [equation]=equationSign [ngStyle]="{'font-size': calcEditorFontSize()}"></ng-katex>
+            </div>
+            <div class="equation-side" id='right'>
+                <app-equation-controler-node [node]=equation.rightSide [fontSize]='calcEditorFontSize()'>
+                </app-equation-controler-node>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-secondary m-1" title="Vrátí poslední provedenou operaci" (click)="back()"
+        [disabled]='edits.length < 2'>Zpět</button>
+    <button class="btn btn-secondary m-1" title="Zruší vrácení provedené operace" (click)="next()"
+        [disabled]='removedEdits.length === 0'>Vpřed</button>
+    <button class="btn btn-secondary m-1" title="Zruší výběr vybraných prvků" (click)='clearSelection()'>Zrušit
+        výběr</button>
+    <h3>Upravit:</h3>
+    <input type="text" class="form-control col m-1" (input)="actualizeUserInput($event.target.value);"
+        (keyup.enter)="editEquation()">
+
+    <div class="container-fluid">
+        <div class="row align-items-start">
+            <button class="btn btn-primary col-md-auto m-1" title="Nahradí vybrané prvky výrazem z řádku nad tlačítkem"
+                (click)="editEquation()">Nahradit</button>
+            <button class="btn btn-primary col-md-auto m-1" title="Vynásobí rovnici výrazem z řádku nad tlačítkem"
+                (click)="multiplyEquation()">Vynásobit rovnici</button>
+            <button class="btn btn-primary col-md-auto m-1" title="Vydělí rovnici výrazem z řádku nad tlačítkem"
+                (click)="divideEquation()">Vydělit rovnici</button>
+            <button class="btn btn-primary col-md-auto m-1" title="Prohodí strany rovnice"
+                (click)="swapSides()">Prohodit strany</button>
+        </div>
+    </div>
+
+
+    <h3>Náhled:</h3>
+    <div class="container-fluid  mb-5">
+        <div class="row justify-content-between">
+            <div class="col-12 col-md-7 card preview m-1" #previewContainer>
+                <div class="equationPreview">
+                    <ng-container *ngIf="userInputMathNodeString.length === 0">
+                        Náhled není k dispozici
+                    </ng-container>
+                    <div #preview>
+                        <ng-katex [equation]="getAsLaTeX(userInputMathNodeString)"
+                            [ngStyle]="{'font-size': calcFontSize()}">
+                        </ng-katex>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 card m-1">
+                <ng-container *ngIf="errMessage.length !== 0">
+                    <ul class="errLines">
+                        <li *ngFor="let line of errMessage.split('\n')">{{line}}</li>
+                    </ul>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <h2>Zobrazení postupu:</h2>
+    <table class="edits">
+        <tr *ngFor='let edit of edits'>
+            <td class="edits-left pt-2 pb-2">
+                <ng-katex [equation]="getAsLaTeX(edit)"></ng-katex>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Nápověda</h2>
+    <div style="display: flex; justify-content: space-between;" #editor>
+        <h3 #help1>Vložení rovnice</h3>
+        <fa-icon [icon]="faArrowUp" size='3x' style="cursor: pointer;" (click)="scroll(input)"></fa-icon>
+    </div>
+    <p>
+    <p>
+        V horní části webové stránky se nachází řádek „Zadat rovnici“ pro zadání rovnice. Do něj se zapisuje rovnice,
+        která se vkládá do editoru. Pod tímto řádkem jsou dvě pole – levé zobrazuje náhled napsané rovnice a pravé pro
+        zobrazení případných chyb, které zápis rovnice obsahuje. Rovnice musí obsahovat rovnostní znaménko, dále alespoň
+        jeden prvek na každé straně rovnice a jednu neznámou vyjádřenou písmenem anglické abecedy. Rovnice ve správném
+        tvaru se do editoru vloží kliknutím na tlačítko „Použít“.
+    </p>
+    <p>
+        Vložená rovnice může obsahovat zlomky (zápis použitím znaménka „/“). Nesmí obsahovat neznámou nebo nulu ve
+        jmenovateli a vyšší mocninu neznámé, a to ani během řešení. Přestože aplikace umožňuje tento typ rovnice vložit
+        do editoru, neumožňuje její řešení.
+    </p>
+    <p>
+        Napsanou rovnici je možné zkopírovat kliknutím na tlačítko „Zkopírovat odkaz do schránky“. Rovnice se uloží v
+        podobě URL řetězce a je možné ji vložit pomocí klávesové zkratky „Ctrl + V“.
+    </p>
+
+    <div style="display: flex; justify-content: space-between;" #editor>
+        <h3 #help2>Řešení rovnice</h3>
+        <fa-icon [icon]="faArrowUp" size='3x' style="cursor: pointer;" (click)="scroll(editor)"></fa-icon>
+    </div>
+
+    <p>
+        V případě, že zápis rovnice neobsahuje žádné chyby, po kliknutí na tlačítko „Použít“ se vloží do pole „Řešit
+        rovnici“ (editor rovnice). Rovnici je možné řešit přemístěním některého z prvků v rámci jedné nebo obou stran
+        rovnice; vybráním a nahrazením několika prvků novými; vynásobením celé rovnice; vydělením celé rovnice nebo
+        výměnou stran rovnice.
+    </p>
+
+    <h4>Přesun prvků</h4>
+    <p>
+        Prvky rovnice (orámované šedou čarou) mohou být přesouvány, aby bylo možné rovnici řešit. Přesunování prvků z
+        levé na pravou stranu rovnice (a na opak) představuje přičítání nebo odčítání od celé rovnice. Přesouvány mohou
+        být v jednom kroku také skupiny prvků. Ty se vybírají podle vnějšího orámování. Na orámovaném prvku nebo skupině
+        prvků, které chcete přetáhnut, stiskněte levé tlačítko myši a přetáhněte v rovnici do místa, kam chcete prvek
+        nebo skupinu prvků umístit. Při přetahování prvku přes rovnítko je potřeba, aby kurzor myši byl vodorovně v
+        úrovni znaménka rovnosti. Po přetažení přes rovnítko se znaménko přetahovaného prvku/skupiny prvků změní
+        automaticky z kladného na záporné a naopak.
+    </p>
+
+    <h4>Nahrazení prvků</h4>
+    <p>
+        Prvky rovnice (orámované šedou čarou) je možné nahradit prvky se stejnou hodnotou. Nejprve je třeba vybrat prvky
+        k nahrazení kliknutím. Vybrat je možné všechny prvky s výjimkou nuly. Vybrané prvky mají světle modré pozadí.
+        Poté je možné napsat výraz, kterým budou nahrazeny vybrané prvky, do řádku „Upravit“.
+        V poli vlevo pod tímto řádkem se zobrazuje náhled napsaného výrazu a v poli vpravo se zobrazují chyby, pokud
+        výraz nějaké obsahuje. Když napsaný výraz neobsahuje chyby a má stejnou hodnotu jako výraz složený z vybraných
+        prvků, je možné stisknutím tlačítka provést nahrazení. Nerovnají-li se výrazy, zobrazí se to v poli pro chyby a
+        nahrazení nebude provedeno.
+    </p>
+    <h4>Vynásobení rovnice</h4>
+    <p>
+        Obě strany rovnice je také možné vynásobit. Výraz, kterým má být rovnice vynásobena, se zapisuje do stejného
+        řádku jako v případě nahrazení. Výraz nesmí obsahovat žádnou neznámou a nesmí být rovný nule. Vynásobení rovnice
+        proběhne po stisknutí tlačítka „Vynásobit“, neobsahuje-li výraz žádnou chybu.
+    </p>
+    <h4>Vydělení rovnice</h4>
+    <p>
+        Pro vydělení rovnice platí stejná pravidla, jako pro vynásobení. Vydělení proběhne po stisknutí tlačítka
+        „Vydělit“, neobsahuje-li výraz žádnou chybu.
+    </p>
+    <h4>Vyměnění stran rovnice</h4>
+    <p>
+        Poslední možností úpravy rovnice je prohození stran rovnice. To je možné provést stisknutím tlačítka „Prohodit
+        strany“.
+    </p>
+    <h4>Další funkce</h4>
+
+    <ul>
+        <li>Zpět/Vpřed – umožňuje procházet provedené kroky v editoru rovnic</li>
+        <li>Zrušit výběr – zruší výběr prvků</li>
+        <li>Zobrazení postupu – všechny provedené změny jsou zaznamenány a je možné se na ně podívat</li>
+        <li>Odkaz na nápovědu – vložení rovnice i editor rovnic obsahuje nápovědu, na kterou je možné se dostat
+            kliknutím na ikonu otazníku v pravé části obrazovky</li>
+        <li>Odkaz z nápovědy – nápověda pro vložení rovnice i pro editor rovnic obsahuje ikonu šipky. Po kliknutí na
+            tuto ikonu se zobrazí vložení rovnice nebo editor rovnic.</li>
+    </ul>
+</div>

@@ -1,0 +1,33 @@
+<h2>Zadat rovnici:</h2>
+<div class="container-fluid">
+    <div class="row">
+        <input type="text" class="form-control col m-1" (input)="parseEquation($event.target.value);">
+        <button class="btn btn-primary col-md-auto m-1" (click)=submit()>Použít</button>
+        <button class="btn btn-primary col-md-auto m-1" (click)="copyToClipboard()">Zkopírovat odkaz do
+            schránky</button>
+    </div>
+</div>
+
+<h3>Náhled:</h3>
+<div class="container-fluid mb-5">
+    <div class="row justify-content-between">
+        <div class="col-12 col-md-7 card preview m-1" #previewContainer>
+            <div class="equationPreview">
+                <ng-container *ngIf="equationAsString.length === 0">
+                    Náhled není k dispozici
+                </ng-container>
+                <div #preview>
+                    <ng-katex [equation]="getAsLaTeX(equationAsString)" [ngStyle]="{'font-size': calcFontSize()}">
+                    </ng-katex>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 card m-1">
+            <ng-container *ngIf="errMessage.length !== 0">
+                <ul class="errLines">
+                    <li *ngFor="let line of errMessage.split('\n')">{{line}}</li>
+                </ul>
+            </ng-container>
+        </div>
+    </div>
+</div>

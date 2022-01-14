@@ -1,0 +1,25 @@
+<div cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="node" class="node-list noselect"
+    [ngClass]="{'fraction': node.value[0].sign === '/', 'selected': node.selected}" (cdkDropListDropped)="drop($event)">
+
+    <div [ngClass]="getCssClasses(item, i)" *ngFor="let item of node.value; let i = index" cdkDrag
+        (click)='selectNode(item)' [cdkDragDisabled]="isDisabled(item)">
+
+        <ng-container *ngIf="hasSign(item, i)">
+            <ng-katex [equation]="getAsLaTeX(item.sign)" [ngStyle]="{'font-size': fontSize}"></ng-katex>
+        </ng-container>
+
+        <ng-container *ngIf="hasBrackets(item)">
+            <ng-katex [equation]="lBracket" [ngStyle]="{'font-size': fontSize}"></ng-katex>
+        </ng-container>
+        <ng-container *ngIf="isArray(item.value)">
+            <app-equation-controler-node [node]=item [fontSize]=fontSize></app-equation-controler-node>
+        </ng-container>
+        <ng-container *ngIf="hasBrackets(item)">
+            <ng-katex [equation]="rBracket" [ngStyle]="{'font-size': fontSize}"></ng-katex>
+        </ng-container>
+
+        <ng-container *ngIf="!isArray(item.value)">
+            <ng-katex [equation]="item.value" [ngStyle]="{'font-size': fontSize}"></ng-katex>
+        </ng-container>
+    </div>
+</div>

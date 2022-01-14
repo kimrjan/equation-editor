@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~katex/dist/katex.css';
+:root {
+    --light-color: #E2DEE6;
+    --card-bc-color: #7495B7;
+    --border-blue: #3C437D;
+    --dark-background: #131841;
+    --node-border: #9F9894;
+}
+
+html, body {
+    background-color: var(--dark-background);
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    max-width: 1480px;
+    color: var(--light-color);
+    margin: 0 auto;
+    padding: 40px 40px 0 40px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+    font-size: 30px !important;
+}
+
+h2 {
+    font-size: 25px !important;
+}
+
+h3 {
+    font-size: 20px !important;
+}
+
+h4 {
+    font-size: 17px !important;
+}
+
+.card {
+    border-radius: 12px;
+    height: 10rem;
+    border: 3px solid var(--border-blue);
+    background-color: var(--card-bc-color);
+    color: var(--dark-background);
+    font-size: 1.25rem;
+    padding: 0.5rem 0.5rem;
+}
+
+.errLines {
+    padding-left: 2rem;
+}
+
+.preview {
+    height: 10rem;
+    line-height: 8.625rem;
+    font-size: 1.5rem;
+}
+
+.equationPreview {
+    justify-content: center;
+    display: flex;
+}

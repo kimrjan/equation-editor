@@ -1,0 +1,22 @@
+#equationInput {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#equationInputSubmit {
+    display: flex;
+    flex-direction: row;
+    max-width: fit-content;
+}
+
+#preview {
+    line-height: 10rem;
+    font-size: 1.5rem;
+    white-space: nowrap;
+}
+
+#equationPreview {
+    justify-content: center;
+    display: flex;
+}

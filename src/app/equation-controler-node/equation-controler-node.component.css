@@ -1,0 +1,90 @@
+.node-list {
+    border: solid 1px var(--node-border);
+    min-height: 60px;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--light-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.node {
+    padding: 1rem 0.5rem;
+    border-right: solid 1px var(--node-border);
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: var(--light-color);
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.node:last-child {
+    border: none;
+}
+
+.node-list.cdk-drop-list-dragging .node:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.equility-sign {
+    margin: auto;
+}
+
+.fraction {
+    display: grid;
+    grid-auto-rows: 1fr;
+}
+
+.fraction-top {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid black;
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.fraction-top>ng-katex {
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
+.fraction-bottom {
+    padding: 1rem 2rem;
+    border-top: 1px solid black;
+    justify-content: center;
+    display: flex;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.selected {
+    background-color: var(--card-bc-color);
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

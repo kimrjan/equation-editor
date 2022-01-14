@@ -1,0 +1,90 @@
+.component {
+    background-color: var(--dark-background);
+    color: var(--light-color);
+}
+
+.around-equation-container {
+    background-color: var(--light-color);
+    border-radius: 4px;
+}
+
+.equation-container {
+    width: fit-content;
+    display: flex;
+    vertical-align: top;
+    padding: 0.5rem;
+    background-color: var(--light-color);
+    border-radius: 4px;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.equation-side {
+    margin: auto 0;
+}
+
+.equation-sign {
+    padding: 1rem 1rem;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    align-items: center;
+    background-color: var(--light-color);
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.equation-side#left {
+    padding-left: 1rem;
+}
+
+.equation-side#right {
+    padding-right: 1rem;
+}
+
+.edits {
+    margin: 1rem auto 1rem auto;
+    font-size: 1.5rem;
+}
+
+.edits tr {
+    padding-bottom: 0.5rem;
+}
+
+.edits-left {
+    text-align: right;
+}
+
+.edits-middle {
+    text-align: middle;
+}
+
+.edits-right {
+    text-align: left;
+}
+
+.example-container {
+    width: 500px;
+    height: 300px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-sidenav {
+    padding: 20px;
+}
+.mat-drawer-content{
+    margin-left: 0 !important;
+}
