@@ -1,5 +1,7 @@
 # EquationEditor
 
+https://kimrjan.github.io/equation-editor/
+
 School project in the fourth year at gyarab.cz
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
